@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangoX | Standoff 2 Cheat by PSF</title>
+    <style>
+        /* Основные настройки фона */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Холст для частиц */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+
+        /* Контент поверх фона */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        .logo {
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 900;
+            color: #ff9d00;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 157, 0, 0.6);
+            margin-bottom: 5px;
+            letter-spacing: 10px;
+        }
+
+        .dev-tag {
+            background: rgba(255, 157, 0, 0.1);
+            color: #ff9d00;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            border: 1px solid #ff9d00;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        .features {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+        li { margin: 12px 0; padding-left: 30px; position: relative; font-size: 1.1rem; }
+        li::before { content: '◈'; position: absolute; left: 0; color: #ff9d00; }
+
+        .btn-main {
+            display: inline-block;
+            background: #ff9d00;
+            color: #000;
+            padding: 18px 60px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.4s;
+            box-shadow: 0 0 30px rgba(255, 157, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(255, 157, 0, 0.6);
+            background: #ffb700;
+        }
+
+        .contacts { margin-top: 50px; text-align: center; }
+        .tg-link {
+            display: inline-block;
+            margin: 10px;
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(0, 136, 204, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .tg-link:hover {
+            border-color: #0088cc;
+            background: rgba(0, 136, 204, 0.2);
+        }
+
+        footer { margin-top: 60px; color: #444; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-js"></canvas>
+
+    <div class="content-wrapper">
+        <div class="logo animated">MangoX</div>
+        <div class="dev-tag animated delay-1">FROM PSF DEVELOPERS</div>
+        
+        <p class="animated delay-1" style="font-size: 1.2rem; color: #ccc;">Private Software for Standoff 2</p>
+
+        <div class="features animated delay-2">
+            <ul style="color: #eee;">
+                <li><strong>ESP</strong> (Lines, Boxes, Health)</li>
+                <li><strong>Aimbot</strong> (Silent / Smooth)</li>
+                <li><strong>Skinchanger</strong> (StatTrack Inc.)</li>
+                <li><strong>Anti-Ban</strong> (Undetected)</li>
+            </ul>
+        </div>
+
+        <div class="animated delay-3">
+            <a href="#" class="btn-main">СКАЧАТЬ</a>
+        </div>
+
+        <div class="contacts animated delay-3">
+            <p style="color: #555; margin-bottom: 15px; font-weight: bold; letter-spacing: 2px;">SUPPORT / CONTACTS</p>
+            <a href="https://t.me/DeleteNice" target="_blank" class="tg-link">@DeleteNice</a>
+            <a href="https://t.me/China_okey" target="_blank" class="tg-link">@China_okey</a>
+        </div>
+
+        <footer class="animated delay-3">
+            &copy; 2026 MangoX Project by PSF.
+        </footer>
+    </div>
+
+    <script>
+        // Скрипт для создания эффекта искр/частиц
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 2) - 1;
+                let directionY = (Math.random() * 2) - 1;
+                let color = '#ff9d00';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
